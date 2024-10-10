@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -10,6 +9,9 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private CanvasGroup canvasGroup;
     private Vector2 originalPosition;
     private Transform parentToReturnTo = null;
+
+    // Nueva referencia a la posición de inicio
+    public RectTransform startPosition;
 
     void Awake()
     {
@@ -45,9 +47,9 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             CardSlot slot = result.gameObject.GetComponent<CardSlot>();
             if (slot != null)
             {
-                // Ajusta la carta al slot si se detecta uno
-                rectTransform.anchoredPosition = slot.GetComponent<RectTransform>().anchoredPosition;
+                // Cambia el padre al slot y ajusta la posición
                 this.transform.SetParent(slot.transform); // Ajusta el padre al slot
+                rectTransform.anchoredPosition = Vector2.zero; // Coloca la carta en la posición correcta dentro del slot
                 placedInSlot = true;
                 break;
             }
@@ -55,9 +57,9 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         if (!placedInSlot)
         {
-            // Si no se soltó en un lugar válido, regresa a su posición original
-            rectTransform.anchoredPosition = originalPosition;
-            this.transform.SetParent(parentToReturnTo);
+            // Si no se soltó en un lugar válido, regresa a la posición inicial referenciada
+            rectTransform.anchoredPosition = startPosition.anchoredPosition;
+            this.transform.SetParent(startPosition); // Regresa al padre original del inicio
         }
     }
 

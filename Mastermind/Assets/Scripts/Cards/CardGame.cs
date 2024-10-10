@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class CardGAme: MonoBehaviour
+public class CardGame : MonoBehaviour
 {
     public Image[] cardSpaces; // Espacios donde se mostrarán las cartas
     public Sprite[] colorSprites; // Sprites de colores para las cartas

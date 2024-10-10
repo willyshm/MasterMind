@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4647414f157e03746bf288e101e4c1c5
+guid: 02547f5d9d62f2b4a9f5797c5abe5421
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -136,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Untitled-3-03_0
+      name: Untitled-3 [Recovered]-02_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 150
-        height: 250
+        width: 625
+        height: 1042
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,8 +150,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5eb9cc75ff7288340a70ebd579b3ea02
-      internalID: -112332487
+      spriteID: 4e183ecded4bfff44aa427a3a8c24418
+      internalID: 2132752548
       vertices: []
       indices: 
       edges: []
@@ -167,7 +167,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Untitled-3-03_0: -112332487
+      Untitled-3 [Recovered]-02_0: 2132752548
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
