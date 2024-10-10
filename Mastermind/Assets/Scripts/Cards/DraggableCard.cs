@@ -7,11 +7,11 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 {
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
-    private Vector2 originalPosition;
+    private Vector2 originalPosition; // La posición original exacta de la carta
     private Transform parentToReturnTo = null;
 
-    // Nueva referencia a la posición de inicio
-    public RectTransform startPosition;
+    public Transform startParent; // El padre original al inicio
+    public RectTransform startPosition; // La posición inicial exacta de la carta
 
     void Awake()
     {
@@ -21,15 +21,15 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        originalPosition = rectTransform.anchoredPosition;
-        canvasGroup.blocksRaycasts = false; // Evita que interfiera con otros elementos mientras se arrastra
-        parentToReturnTo = this.transform.parent; // Guarda el padre original
-        this.transform.SetParent(this.transform.parent.parent); // Saca la carta del layout temporalmente para arrastrarla
+        originalPosition = rectTransform.anchoredPosition; // Guarda la posición exacta al iniciar el arrastre
+        canvasGroup.blocksRaycasts = false; // Permite arrastrar sobre otros elementos
+        parentToReturnTo = this.transform.parent; // Guarda el padre actual antes de mover la carta
+        this.transform.SetParent(this.transform.parent.parent); // Saca la carta del layout temporalmente
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / CanvasScalerFactor(); // Mueve la carta con el puntero
+        rectTransform.anchoredPosition += eventData.delta / CanvasScalerFactor(); // Mueve la carta junto con el mouse
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -47,25 +47,33 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             CardSlot slot = result.gameObject.GetComponent<CardSlot>();
             if (slot != null)
             {
-                // Cambia el padre al slot y ajusta la posición
-                this.transform.SetParent(slot.transform); // Ajusta el padre al slot
-                rectTransform.anchoredPosition = Vector2.zero; // Coloca la carta en la posición correcta dentro del slot
-                placedInSlot = true;
+                // Verifica si el slot ya tiene una carta 
+                if (slot.transform.childCount == 0)
+                {
+                    // Si el slot está vacío, coloca la carta en el slot
+                    this.transform.SetParent(slot.transform); // Ajusta el padre al slot
+                    rectTransform.anchoredPosition = Vector2.zero; // Coloca la carta en la posición correcta dentro del slot
+                    placedInSlot = true;
+                }
+                else
+                {
+                    Debug.Log("Slot ya ocupado.");
+                }
                 break;
             }
         }
 
         if (!placedInSlot)
         {
-            // Si no se soltó en un lugar válido, regresa a la posición inicial referenciada
+            // Si no se soltó en un lugar válido o el slot está ocupado, regresa a la posición inicial
             rectTransform.anchoredPosition = startPosition.anchoredPosition;
-            this.transform.SetParent(startPosition); // Regresa al padre original del inicio
+            this.transform.SetParent(startParent); // Vuelve al padre original
         }
     }
 
     private float CanvasScalerFactor()
     {
         Canvas canvas = GetComponentInParent<Canvas>();
-        return canvas.scaleFactor; // Para que funcione correctamente con diferentes resoluciones y escalas de UI
+        return canvas.scaleFactor; // Para ajustar la escala de la UI
     }
 }
