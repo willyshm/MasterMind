@@ -74,7 +74,7 @@ public class PageController : MonoBehaviour
     {
         for (int i = 0; i < pageIndicators.Length; i++)
         {
-            pageIndicators[i].color = (i == currentPage) ? activeColor : inactiveColor; // Cambiar color
+            pageIndicators[i].color = (i == currentPage) ? activeColor : inactiveColor; 
         }
     }
 
@@ -110,7 +110,7 @@ public class PageController : MonoBehaviour
             instructionCanvas.DOScale(Vector3.zero, transitionTime);
         }).OnComplete(() =>
         {
-            instructionCanvas.gameObject.SetActive(false); // Desactivar el objeto después de la animación
+            instructionCanvas.gameObject.SetActive(false); 
         });
     }
 }

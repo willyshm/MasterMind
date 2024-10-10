@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e18bad00d076a90468c2f77b50d36484
+guid: 02547f5d9d62f2b4a9f5797c5abe5421
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -136,7 +136,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Untitled-3 [Recovered]-06_0
+      name: ColorAmarillo
       rect:
         serializedVersion: 2
         x: 0
@@ -144,14 +144,14 @@ TextureImporter:
         width: 625
         height: 1042
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f92873adce257048bac92742c85e0b4
-      internalID: -1137896218
+      spriteID: 4e183ecded4bfff44aa427a3a8c24418
+      internalID: 2132752548
       vertices: []
       indices: 
       edges: []
@@ -167,7 +167,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Untitled-3 [Recovered]-06_0: -1137896218
+      ColorAmarillo: 2132752548
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

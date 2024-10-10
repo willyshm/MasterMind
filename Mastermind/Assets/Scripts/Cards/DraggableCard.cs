@@ -1,17 +1,19 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using DG.Tweening;
 public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
-    private Vector2 originalPosition; // La posición original exacta de la carta
+    private Vector2 originalPosition; 
     private Transform parentToReturnTo = null;
 
-    public Transform startParent; // El padre original al inicio
-    public RectTransform startPosition; // La posición inicial exacta de la carta
+    // Nueva referencia a la posición de inicio
+    public Transform startParent; 
+    public RectTransform startPosition; 
 
     void Awake()
     {
@@ -21,15 +23,15 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        originalPosition = rectTransform.anchoredPosition; // Guarda la posición exacta al iniciar el arrastre
-        canvasGroup.blocksRaycasts = false; // Permite arrastrar sobre otros elementos
-        parentToReturnTo = this.transform.parent; // Guarda el padre actual antes de mover la carta
-        this.transform.SetParent(this.transform.parent.parent); // Saca la carta del layout temporalmente
+        originalPosition = rectTransform.anchoredPosition; 
+        canvasGroup.blocksRaycasts = false; 
+        parentToReturnTo = this.transform.parent; 
+        this.transform.SetParent(this.transform.parent.parent); 
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / CanvasScalerFactor(); // Mueve la carta junto con el mouse
+        rectTransform.anchoredPosition += eventData.delta / CanvasScalerFactor(); 
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -51,8 +53,8 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 if (slot.transform.childCount == 0)
                 {
                     // Si el slot está vacío, coloca la carta en el slot
-                    this.transform.SetParent(slot.transform); // Ajusta el padre al slot
-                    rectTransform.anchoredPosition = Vector2.zero; // Coloca la carta en la posición correcta dentro del slot
+                    this.transform.SetParent(slot.transform); 
+                    rectTransform.anchoredPosition = Vector2.zero; 
                     placedInSlot = true;
                 }
                 else
@@ -67,13 +69,13 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             // Si no se soltó en un lugar válido o el slot está ocupado, regresa a la posición inicial
             rectTransform.anchoredPosition = startPosition.anchoredPosition;
-            this.transform.SetParent(startParent); // Vuelve al padre original
+            this.transform.SetParent(startParent);
         }
     }
 
     private float CanvasScalerFactor()
     {
         Canvas canvas = GetComponentInParent<Canvas>();
-        return canvas.scaleFactor; // Para ajustar la escala de la UI
+        return canvas.scaleFactor; 
     }
 }

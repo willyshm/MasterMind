@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4e9ec18299f90654780deba54c884322
+guid: 5c837c2da4bb7614dae2fc6a4e2c4e67
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -136,22 +136,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Untitled-3 [Recovered]-04_0
+      name: CartaRoja
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 625
-        height: 1042
+        width: 630
+        height: 959
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2602c11bc37a9f140be06d05f7b1d44d
-      internalID: -1928735527
+      spriteID: 1a64ea607287fea4093746f3f0aee783
+      internalID: -303546779
       vertices: []
       indices: 
       edges: []
@@ -167,7 +167,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Untitled-3 [Recovered]-04_0: -1928735527
+      CartaRoja: -303546779
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
