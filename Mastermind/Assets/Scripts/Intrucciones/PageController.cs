@@ -1,26 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;//libreria de animaciones
+using DG.Tweening;
 using UnityEngine.UI;
 
 public class PageController : MonoBehaviour
 {
-    public RectTransform[] pages; // Array de las páginas
-    public Image[] pageIndicators; // Array de los puntos indicadores
-    public Color activeColor = Color.white; // Color del punto activo
-    public Color inactiveColor = Color.gray; // Color de los puntos inactivos
-    public float transitionTime = 0.5f; // Tiempo de la transición
-    public float autoSwitchTime = 5f; // Tiempo de inactividad antes de cambiar de página automáticamente
-    public RectTransform instructionCanvas; // Referencia al Canvas de instrucciones
-    public CanvasGroup canvasGroup; // Referencia al CanvasGroup
+    public RectTransform[] pages;
+    public Image[] pageIndicators; 
+    public Color activeColor = Color.white; 
+    public Color inactiveColor = Color.gray; 
+    public float transitionTime = 0.5f; 
+    public float autoSwitchTime = 5f; 
+    public RectTransform instructionCanvas;
+    public CanvasGroup canvasGroup; 
     private int currentPage = 0;
     private Coroutine autoSwitchCoroutine;
 
     private void Start()
     {
-        UpdatePageIndicators(); // Inicializa los indicadores
-        StartAutoSwitch(); // Inicia el temporizador automático
+        UpdatePageIndicators();
+        StartAutoSwitch(); 
     }
 
     // Función para ir a la siguiente página
@@ -28,7 +28,7 @@ public class PageController : MonoBehaviour
     {
         if (currentPage < pages.Length - 1)
         {
-            MovePage(currentPage, currentPage + 1); // Mover a la siguiente página
+            MovePage(currentPage, currentPage + 1); 
             currentPage++;
         }
         else
@@ -39,7 +39,7 @@ public class PageController : MonoBehaviour
         }
 
         UpdatePageIndicators();
-        RestartAutoSwitch(); // Reinicia el temporizador cada vez que cambias de página
+        RestartAutoSwitch(); 
     }
 
     // Función para regresar a la página anterior
@@ -47,7 +47,7 @@ public class PageController : MonoBehaviour
     {
         if (currentPage > 0)
         {
-            MovePage(currentPage, currentPage - 1); // Mover a la página anterior
+            MovePage(currentPage, currentPage - 1); 
             currentPage--;
         }
         else
@@ -58,15 +58,20 @@ public class PageController : MonoBehaviour
         }
 
         UpdatePageIndicators();
-        RestartAutoSwitch(); // Reinicia el temporizador cada vez que cambias de página
+        RestartAutoSwitch(); 
     }
 
     // Función para mover las páginas
     private void MovePage(int fromIndex, int toIndex)
     {
-        pages[toIndex].anchoredPosition = new Vector2((toIndex > fromIndex ? Screen.width : -Screen.width), 0);
-        pages[toIndex].DOAnchorPos(Vector2.zero, transitionTime);
-        pages[fromIndex].DOAnchorPos(new Vector2((toIndex > fromIndex ? -Screen.width : Screen.width), 0), transitionTime);
+       
+        float targetX = (toIndex > fromIndex) ? Screen.width : -Screen.width;
+        pages[toIndex].anchoredPosition = new Vector2(targetX, 0);
+
+        pages[toIndex].DOAnchorPos(Vector2.zero, transitionTime).SetEase(Ease.OutQuad);
+
+        float moveOutX = (toIndex > fromIndex) ? -Screen.width : Screen.width;
+        pages[fromIndex].DOAnchorPos(new Vector2(moveOutX, 0), transitionTime).SetEase(Ease.OutQuad);
     }
 
     // Función para actualizar el estado de los puntos
@@ -78,13 +83,11 @@ public class PageController : MonoBehaviour
         }
     }
 
-    // Iniciar la corrutina para el cambio automático de páginas
     private void StartAutoSwitch()
     {
         autoSwitchCoroutine = StartCoroutine(AutoSwitchPages());
     }
 
-    // Reiniciar el temporizador automático
     private void RestartAutoSwitch()
     {
         StopCoroutine(autoSwitchCoroutine);
@@ -96,8 +99,8 @@ public class PageController : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(autoSwitchTime); // Esperar el tiempo definido
-            NextPage(); // Cambiar a la siguiente página automáticamente
+            yield return new WaitForSeconds(autoSwitchTime); 
+            NextPage(); 
         }
     }
 

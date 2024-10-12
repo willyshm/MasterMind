@@ -8,30 +8,34 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 {
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
-    private Vector2 originalPosition; 
+    private Vector2 originalPosition;
     private Transform parentToReturnTo = null;
 
     // Nueva referencia a la posición de inicio
-    public Transform startParent; 
-    public RectTransform startPosition; 
+    public Transform startParent;
+    public RectTransform startPosition;
+
+    private AudioSource audioSource;
+    public AudioSource errorSound; // Sonido para el movimiento a un slot ocupado
 
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        originalPosition = rectTransform.anchoredPosition; 
-        canvasGroup.blocksRaycasts = false; 
-        parentToReturnTo = this.transform.parent; 
-        this.transform.SetParent(this.transform.parent.parent); 
+        originalPosition = rectTransform.anchoredPosition;
+        canvasGroup.blocksRaycasts = false;
+        parentToReturnTo = this.transform.parent;
+        this.transform.SetParent(this.transform.parent.parent);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / CanvasScalerFactor(); 
+        rectTransform.anchoredPosition += eventData.delta / CanvasScalerFactor();
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -53,12 +57,17 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 if (slot.transform.childCount == 0)
                 {
                     // Si el slot está vacío, coloca la carta en el slot
-                    this.transform.SetParent(slot.transform); 
-                    rectTransform.anchoredPosition = Vector2.zero; 
+                    this.transform.SetParent(slot.transform);
+                    rectTransform.anchoredPosition = Vector2.zero;
                     placedInSlot = true;
+
+                    // Reproduce el sonido de colocación
+                    audioSource.Play();
                 }
                 else
                 {
+                    // Reproduce el sonido de error si el slot ya está ocupado
+                    errorSound.Play();
                     Debug.Log("Slot ya ocupado.");
                 }
                 break;
@@ -76,6 +85,6 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private float CanvasScalerFactor()
     {
         Canvas canvas = GetComponentInParent<Canvas>();
-        return canvas.scaleFactor; 
+        return canvas.scaleFactor;
     }
 }
