@@ -24,8 +24,8 @@ public class CardGame : MonoBehaviour
     public TextMeshProUGUI currentScoreText;
 
     private int remainingAttempts = 2;
-    private int finalScore = 0;        // Variable para almacenar el puntaje final
-    private bool gameStarted = false;  // Variable para controlar el inicio del juego
+    private int finalScore = 0;        
+    private bool gameStarted = false;  
 
     public AudioSource shuffleSound;
     public AudioSource flipSound;
