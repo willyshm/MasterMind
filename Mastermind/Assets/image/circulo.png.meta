@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4e9ec18299f90654780deba54c884322
+guid: a5406fb6af0a480468009f5dff6b1597
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -136,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ColorVerde
+      name: circulo
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 625
-        height: 1042
+        width: 85
+        height: 85
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,8 +150,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2602c11bc37a9f140be06d05f7b1d44d
-      internalID: -1928735527
+      spriteID: e1841d9ff986e414f8a6d6cc5ae79a61
+      internalID: 1252236903
       vertices: []
       indices: 
       edges: []
@@ -167,7 +167,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ColorVerde: -1928735527
+      circulo: 1252236903
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

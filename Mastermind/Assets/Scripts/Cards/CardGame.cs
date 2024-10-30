@@ -18,32 +18,34 @@ public class CardGame : MonoBehaviour
 
     public CanvasGroup gameCanvasGroup;
     public CanvasGroup resultCanvasGroup;
+    public CanvasGroup congratulationsCanvasGroup;
     public TextMeshProUGUI finalScoreText;
 
     public TextMeshProUGUI opportunitiesText;
     public TextMeshProUGUI currentScoreText;
 
     private int remainingAttempts = 2;
-    private int finalScore = 0;        
-    private bool gameStarted = false;  
+    private int finalScore = 0;
+    private bool gameStarted = false;
 
     public AudioSource shuffleSound;
     public AudioSource flipSound;
 
+    public GameObject verificationMessagePrefab;
+    private GameObject currentMessageInstance;
+
     void Start()
     {
-        
         verifyButton.onClick.AddListener(() => VerifyCards(FindObjectOfType<ScoreManager>()));
         UpdateGameCanvas();
     }
 
-    // Método que se llama para iniciar el juego
     public void StartGame()
     {
-        if (!gameStarted) 
+        if (!gameStarted)
         {
-            gameStarted = true; 
-            InitializeCards(); 
+            gameStarted = true;
+            InitializeCards();
         }
     }
 
@@ -51,24 +53,19 @@ public class CardGame : MonoBehaviour
     {
         cardOrder = new int[cardSpaces.Length];
 
-        
         for (int i = 0; i < cardSpaces.Length; i++)
         {
-            cardOrder[i] = i; 
+            cardOrder[i] = i;
         }
 
-        ShuffleArray(cardOrder); 
+        ShuffleArray(cardOrder);
 
-        
         foreach (var space in cardSpaces)
         {
             space.sprite = unknownSprite;
         }
 
-        
         InitializeHiddenCards();
-
-       
         ShuffleCards();
     }
 
@@ -85,7 +82,7 @@ public class CardGame : MonoBehaviour
                     if (colorSprites[cardOrder[i]] != null)
                     {
                         Debug.Log($"Asignando sprite a carta oculta {i}: {colorSprites[cardOrder[i]].name}");
-                        scoreManager.hiddenCards[i].sprite = colorSprites[cardOrder[i]]; 
+                        scoreManager.hiddenCards[i].sprite = colorSprites[cardOrder[i]];
                     }
                     else
                     {
@@ -115,10 +112,8 @@ public class CardGame : MonoBehaviour
         }
     }
 
-    // Animar la mezcla de cartas con rotación
     void ShuffleCards()
     {
-        // Reproduce el sonido de mezclar
         shuffleSound.Play();
 
         for (int i = 0; i < cardSpaces.Length; i++)
@@ -126,32 +121,27 @@ public class CardGame : MonoBehaviour
             int randomIndex = Random.Range(0, shufflePositions.Length);
             float randomRotation = Random.Range(-30f, 30f);
 
-            // Mover y rotar cada carta a una posición de mezcla aleatoria
             cardSpaces[i].transform.DOMove(shufflePositions[randomIndex].position, 1f)
                 .SetEase(Ease.InOutQuad);
 
             cardSpaces[i].transform.DORotate(new Vector3(0, 0, randomRotation), 1f)
                 .SetEase(Ease.InOutQuad);
 
-            // Cuando todas las cartas terminen de moverse, colocarlas en los slots 
             if (i == cardSpaces.Length - 1)
             {
                 cardSpaces[i].transform.DOMove(shufflePositions[randomIndex].position, 1f).OnComplete(() =>
                 {
                     DealCardsToFinalSlots();
-                    // Detiene el sonido después de que se complete la animación
                     shuffleSound.Stop();
                 });
             }
         }
     }
 
-    // Colocar las cartas en los slots finales
     void DealCardsToFinalSlots()
     {
         for (int i = 0; i < cardSpaces.Length; i++)
         {
-            // Mueve cada carta a su slot final
             cardSpaces[i].transform.DOMove(finalSlots[i].position, 1f).SetEase(Ease.InOutQuad);
             cardSpaces[i].transform.DORotate(Vector3.zero, 1f).SetEase(Ease.InOutQuad);
         }
@@ -159,7 +149,7 @@ public class CardGame : MonoBehaviour
 
     public void VerifyCards(ScoreManager scoreManager)
     {
-        StartCoroutine(FlipMatchingCards(scoreManager)); 
+        StartCoroutine(FlipMatchingCards(scoreManager));
     }
 
     private IEnumerator FlipMatchingCards(ScoreManager scoreManager)
@@ -194,32 +184,35 @@ public class CardGame : MonoBehaviour
             }
         }
 
-        // Llama a la función para verificar puntuaciones al final de voltear las cartas
-        finalScore = scoreManager.CheckScore(); 
+        finalScore = scoreManager.CheckScore();
 
-        // Restar una oportunidad después de verificar
+        if (remainingAttempts == 2)
+        {
+            UpdateVerificationMessage();
+        }
+
         remainingAttempts--;
 
-        // Actualizar el marcador en el canvas del juego
         UpdateGameCanvas();
 
-        // Verificar si se han terminado las oportunidades
-        if (remainingAttempts <= 0)
+        if (finalScore == cardSpaces.Length && remainingAttempts == 1)
         {
-            ShowResultCanvas(); 
+            ShowCongratulationsCanvas();
+        }
+        else if (remainingAttempts <= 0)
+        {
+            ShowResultCanvas();
         }
     }
 
     private void UpdateGameCanvas()
     {
-        // Actualizar la UI del canvas del juego para mostrar las oportunidades restantes y puntaje actual
         opportunitiesText.text = "Oportunidades restantes: " + remainingAttempts;
         currentScoreText.text = "Puntaje actual: " + finalScore;
     }
 
     private void ShowResultCanvas()
     {
-        // Cambiar entre canvas con una animación suave
         gameCanvasGroup.DOFade(0, 0.5f).OnComplete(() =>
         {
             gameCanvasGroup.gameObject.SetActive(false);
@@ -227,8 +220,41 @@ public class CardGame : MonoBehaviour
             resultCanvasGroup.DOFade(1, 0.5f);
         });
 
-        // Mostrar el puntaje final en el canvas de resultados
         finalScoreText.text = "Puntaje final: " + finalScore + "/" + cardSpaces.Length;
+    }
+
+    private void ShowCongratulationsCanvas()
+    {
+        gameCanvasGroup.DOFade(0, 0.5f).OnComplete(() =>
+        {
+            gameCanvasGroup.gameObject.SetActive(false);
+            congratulationsCanvasGroup.gameObject.SetActive(true);
+            congratulationsCanvasGroup.DOFade(1, 0.5f);
+        });
+    }
+
+    private void UpdateVerificationMessage()
+    {
+        if (currentMessageInstance != null)
+        {
+            Destroy(currentMessageInstance);
+        }
+
+        currentMessageInstance = Instantiate(verificationMessagePrefab, gameCanvasGroup.transform);
+        TextMeshProUGUI messageText = currentMessageInstance.GetComponentInChildren<TextMeshProUGUI>();
+        messageText.text = $"Acertaste {finalScore} carta(s), te queda 1 intento";
+        currentMessageInstance.transform.DOScale(1.2f, 0.2f).From(1f).SetLoops(2, LoopType.Yoyo);
+
+        StartCoroutine(HideVerificationMessageAfterDelay(3f));
+    }
+
+    private IEnumerator HideVerificationMessageAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (currentMessageInstance != null)
+        {
+            Destroy(currentMessageInstance);
+        }
     }
 } 
     
