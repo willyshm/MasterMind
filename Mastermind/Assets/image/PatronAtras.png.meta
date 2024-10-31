@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e18bad00d076a90468c2f77b50d36484
+guid: 9081f2f6e11881746a24787784bd5308
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -136,22 +136,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ColorIncognito
+      name: PatronAtras
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 625
-        height: 1042
+        width: 4500
+        height: 8000
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f92873adce257048bac92742c85e0b4
-      internalID: -1137896218
+      spriteID: 7e5d08b559adafa4cb27adfcf79bea1e
+      internalID: -1126563555
       vertices: []
       indices: 
       edges: []
@@ -167,7 +167,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ColorIncognito: -1137896218
+      PatronAtras: -1126563555
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
