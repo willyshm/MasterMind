@@ -220,7 +220,7 @@ public class CardGame : MonoBehaviour
             resultCanvasGroup.DOFade(1, 0.5f);
         });
 
-        finalScoreText.text = "Puntaje final: " + finalScore + "/" + cardSpaces.Length;
+        finalScoreText.text = "" + finalScore + "/" + cardSpaces.Length;
     }
 
     private void ShowCongratulationsCanvas()

@@ -61,7 +61,7 @@ public class ScoreManager : MonoBehaviour
     // Método para actualizar el puntaje en el canvas de juego
     private void UpdateScoreText(int score)
     {
-        scoreText.text = "Puntaje: " + score + "/" + hiddenCards.Length;
+        scoreText.text =  "" + score + "/" + hiddenCards.Length;
     }
 
     // Método que disminuye las oportunidades después de una verificación
